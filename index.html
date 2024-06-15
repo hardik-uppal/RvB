@@ -11,23 +11,28 @@
         <h1>Rent or Buy Calculator</h1>
         <form id="calculatorForm">
             <label>City or Region:</label><input type="text" id="city" required><br>
-            <label>Property Value:</label><input type="number" id="propertyValue" step="0.01" required><br>
-            <label>Down Payment:</label><input type="number" id="downPayment" step="0.01" required><br>
-            <label>Mortgage Rate (%):</label><input type="number" id="mortgageRate" step="0.01" required><br>
-            <label>Mortgage Term (years):</label><input type="number" id="mortgageTerm" required><br>
+            <label>Property Value:</label><input type="number" id="propertyValue" step="0.01" value="1000000"
+                required><br>
+            <label>Down Payment:</label><input type="number" id="downPayment" step="0.01" value="200000" required><br>
+            <label>Mortgage Rate (%):</label><input type="number" id="mortgageRate" step="0.01" value="3" required><br>
+            <label>Mortgage Term (years):</label><input type="number" id="mortgageTerm" value="30" required><br>
             <label>Property Taxes (% of property value annually):</label><input type="number" id="propertyTaxesPercent"
-                step="0.01" required><br>
-            <label>Insurance (annual):</label><input type="number" id="insurance" step="0.01" required><br>
-            <label>Maintenance (annual):</label><input type="number" id="maintenance" step="0.01" required><br>
-            <label>Strata Fees (monthly):</label><input type="number" id="strataFees" step="0.01" required><br>
+                step="0.01" value="1" required><br>
+            <label>Insurance (annual):</label><input type="number" id="insurance" step="0.01" value="1000" required><br>
+            <label>Maintenance (% of property value annually):</label><input type="number" id="maintenancePercent"
+                step="0.01" value="1" required><br>
+            <label>Strata Fees (monthly):</label><input type="number" id="strataFees" step="0.01" value="300"
+                required><br>
             <label>Miscellaneous Expenses (monthly):</label><input type="number" id="miscellaneousExpenses" step="0.01"
+                value="100" required><br>
+            <label>Appreciation Rate (%):</label><input type="number" id="appreciationRate" step="0.01" value="2"
                 required><br>
-            <label>Appreciation Rate (%):</label><input type="number" id="appreciationRate" step="0.01" required><br>
-            <label>Rent (monthly):</label><input type="number" id="rent" step="0.01" required><br>
-            <label>Rent Inflation Rate (%):</label><input type="number" id="rentInflationRate" step="0.01" required><br>
+            <label>Rent (monthly):</label><input type="number" id="rent" step="0.01" value="2500" required><br>
+            <label>Rent Inflation Rate (%):</label><input type="number" id="rentInflationRate" step="0.01" value="2"
+                required><br>
             <label>Investment Return Rate (%):</label><input type="number" id="investmentReturnRate" step="0.01"
-                required><br>
-            <label>Period (years):</label><input type="number" id="periodYears" required><br>
+                value="5" required><br>
+            <label>Period (years):</label><input type="number" id="periodYears" value="10" required><br>
             <button type="button" onclick="calculate()">Calculate</button>
         </form>
         <div id="results" class="results"></div>

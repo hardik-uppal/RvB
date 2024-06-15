@@ -12,7 +12,7 @@ async function fetchGPT35Data(city) {
 2. Average property price.
 3. Average rental yield.
 4. Investment advice.`,
-            max_tokens: 150, // Adjust as needed
+            max_tokens: 150,
             temperature: 0.7
         })
     });
@@ -28,7 +28,7 @@ async function calculate() {
     const mortgageTerm = parseInt(document.getElementById('mortgageTerm').value);
     const propertyTaxesPercent = parseFloat(document.getElementById('propertyTaxesPercent').value);
     const insurance = parseFloat(document.getElementById('insurance').value);
-    const maintenance = parseFloat(document.getElementById('maintenance').value);
+    const maintenancePercent = parseFloat(document.getElementById('maintenancePercent').value);
     const strataFees = parseFloat(document.getElementById('strataFees').value);
     const miscellaneousExpenses = parseFloat(document.getElementById('miscellaneousExpenses').value);
     const appreciationRate = parseFloat(document.getElementById('appreciationRate').value);
@@ -37,7 +37,7 @@ async function calculate() {
     const investmentReturnRate = parseFloat(document.getElementById('investmentReturnRate').value);
     const periodYears = parseInt(document.getElementById('periodYears').value);
 
-    const buyingResult = calculateTotalBuyingCost(propertyValue, downPayment, mortgageRate, mortgageTerm, propertyTaxesPercent, insurance, maintenance, strataFees, miscellaneousExpenses, appreciationRate, periodYears);
+    const buyingResult = calculateTotalBuyingCost(propertyValue, downPayment, mortgageRate, mortgageTerm, propertyTaxesPercent, insurance, maintenancePercent, strataFees, miscellaneousExpenses, appreciationRate, periodYears);
     const rentingCost = calculateTotalRentingCost(rent, rentInflationRate, periodYears);
 
     let suggestion = '';
@@ -69,12 +69,12 @@ function calculateMonthlyMortgage(principal, annualRate, termYears) {
     return principal * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / (Math.pow(1 + monthlyRate, numPayments) - 1);
 }
 
-function calculateTotalBuyingCost(propertyValue, downPayment, mortgageRate, mortgageTerm, propertyTaxesPercent, insurance, maintenance, strataFees, miscellaneousExpenses, appreciationRate, periodYears) {
+function calculateTotalBuyingCost(propertyValue, downPayment, mortgageRate, mortgageTerm, propertyTaxesPercent, insurance, maintenancePercent, strataFees, miscellaneousExpenses, appreciationRate, periodYears) {
     const principal = propertyValue - downPayment;
     const mortgagePayment = calculateMonthlyMortgage(principal, mortgageRate, mortgageTerm);
     const monthlyTaxes = (propertyTaxesPercent / 100 * propertyValue) / 12;
     const monthlyInsurance = insurance / 12;
-    const monthlyMaintenance = maintenance / 12;
+    const monthlyMaintenance = (maintenancePercent / 100 * propertyValue) / 12;
     const monthlyStrataFees = strataFees;
     const monthlyMiscellaneousExpenses = miscellaneousExpenses;
 
