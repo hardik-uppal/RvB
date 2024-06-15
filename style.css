@@ -1,0 +1,27 @@
+/* Add your CSS styling here */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+}
+
+button {
+    margin-top: 20px;
+}
+
+.results {
+    margin-top: 20px;
+}
