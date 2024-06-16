@@ -20,6 +20,30 @@ async function fetchGPT35Data(city) {
     return data.choices[0].text;
 }
 
+function calculateTotalBuyingCost(propertyValue, downPayment, mortgageRate, mortgageTerm, propertyTaxesPercent, insurance, maintenancePercent, strataFees, miscellaneousExpenses, appreciationRate, investmentReturnRate, periodYears) {
+    const principal = propertyValue - downPayment;
+    const mortgagePayment = calculateMonthlyMortgage(principal, mortgageRate, mortgageTerm);
+    const monthlyInsurance = insurance / 12;
+    const monthlyStrataFees = strataFees;
+    const monthlyMiscellaneousExpenses = miscellaneousExpenses;
+    const monthlyInvestmentReturn = ((downPayment * (investmentReturnRate / 100)) / 12);
+
+    let totalCost = 0;
+    let propertyValueFuture = propertyValue;
+
+    for (let year = 0; year < periodYears; year++) {
+        const monthlyTaxes = (propertyTaxesPercent / 100 * propertyValueFuture) / 12;
+        const monthlyMaintenance = (maintenancePercent / 100 * propertyValueFuture) / 12;
+
+        const annualCost = (mortgagePayment + monthlyTaxes + monthlyInsurance + monthlyMaintenance + monthlyStrataFees + monthlyMiscellaneousExpenses - monthlyInvestmentReturn) * 12;
+        totalCost += annualCost;
+
+        propertyValueFuture *= (1 + appreciationRate / 100);
+    }
+
+    return { totalCost, propertyValueFuture };
+}
+
 async function calculate() {
     const city = document.getElementById('city').value;
     const propertyValue = parseFloat(document.getElementById('propertyValue').value);
@@ -37,7 +61,7 @@ async function calculate() {
     const investmentReturnRate = parseFloat(document.getElementById('investmentReturnRate').value);
     const periodYears = parseInt(document.getElementById('periodYears').value);
 
-    const buyingResult = calculateTotalBuyingCost(propertyValue, downPayment, mortgageRate, mortgageTerm, propertyTaxesPercent, insurance, maintenancePercent, strataFees, miscellaneousExpenses, appreciationRate, periodYears);
+    const buyingResult = calculateTotalBuyingCost(propertyValue, downPayment, mortgageRate, mortgageTerm, propertyTaxesPercent, insurance, maintenancePercent, strataFees, miscellaneousExpenses, appreciationRate, investmentReturnRate, periodYears);
     const rentingCost = calculateTotalRentingCost(rent, rentInflationRate, periodYears);
 
     let suggestion = '';
@@ -67,26 +91,6 @@ function calculateMonthlyMortgage(principal, annualRate, termYears) {
     const monthlyRate = annualRate / 12 / 100;
     const numPayments = termYears * 12;
     return principal * (monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / (Math.pow(1 + monthlyRate, numPayments) - 1);
-}
-
-function calculateTotalBuyingCost(propertyValue, downPayment, mortgageRate, mortgageTerm, propertyTaxesPercent, insurance, maintenancePercent, strataFees, miscellaneousExpenses, appreciationRate, periodYears) {
-    const principal = propertyValue - downPayment;
-    const mortgagePayment = calculateMonthlyMortgage(principal, mortgageRate, mortgageTerm);
-    const monthlyTaxes = (propertyTaxesPercent / 100 * propertyValue) / 12;
-    const monthlyInsurance = insurance / 12;
-    const monthlyMaintenance = (maintenancePercent / 100 * propertyValue) / 12;
-    const monthlyStrataFees = strataFees;
-    const monthlyMiscellaneousExpenses = miscellaneousExpenses;
-
-    let totalCost = 0;
-    let propertyValueFuture = propertyValue;
-    for (let year = 0; year < periodYears; year++) {
-        const annualCost = (mortgagePayment + monthlyTaxes + monthlyInsurance + monthlyMaintenance + monthlyStrataFees + monthlyMiscellaneousExpenses) * 12;
-        totalCost += annualCost;
-        propertyValueFuture *= (1 + appreciationRate / 100);
-    }
-
-    return { totalCost, propertyValueFuture };
 }
 
 function calculateTotalRentingCost(rent, rentInflationRate, periodYears) {
